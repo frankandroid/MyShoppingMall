@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:frank="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.frank.myshoppingmall.widget.MyToolBar
+        android:id="@+id/mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        frank:isShowSeacherView="true"
+        frank:rightButtonIcon="@mipmap/icon_home"
+        frank:rightButtonText="haha"
+        frank:title="hahasimida" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_home_swiperefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.example.frank.myshoppingmall.widget.MyViewPager
+                android:id="@+id/fragment_home_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+            </com.example.frank.myshoppingmall.widget.MyViewPager>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_home_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

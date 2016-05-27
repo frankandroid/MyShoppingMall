@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp"
+    app:cardBackgroundColor="#fff"
+    app:contentPadding="10dp"
+    app:cardCornerRadius="4dp"
+    >
+
+    <LinearLayout
+        android:background="@drawable/selector_list_item"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
+            android:id="@+id/item_categoryfragment_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <TextView
+            style="@style/ware_title"
+            android:layout_marginTop="10dp"
+            android:text="haha"
+            android:id="@+id/item_categoryfragment_tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            style="@style/line_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            style="@style/ware_price"
+            android:layout_gravity="right"
+            android:text="hah"
+            android:id="@+id/item_categoryfragment_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

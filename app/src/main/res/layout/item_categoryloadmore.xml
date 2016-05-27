@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/item_loadmore_ll"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/item_loadmore_pb"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:textSize="30sp"
+            android:text="正在加载中..."
+            android:id="@+id/item_loadmore_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:text="没有更多数据"
+        android:layout_centerInParent="true"
+        android:textSize="30sp"
+        android:id="@+id/item_nomore_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

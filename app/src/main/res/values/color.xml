@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#eb4f38</color>
+    <color name="colorPrimaryDark">#009688</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="bg_color">#f1f1f1</color>
+
+    <color name="gray">#808080</color>
+    <!-- 灰色 -->
+    <color name="crimson">#dc143c</color>
+    <!-- 暗深红色 -->
+    <color name="gainsboro">#dcdcdc</color>
+    <!-- 淡灰色 -->
+
+    <color name="grey_btn_color_disable">#7fd8d8d8</color>
+    <color name="grey_btn_color_pressed">#ffd8d8d8</color>
+    <color name="black">#000</color>
+
+
+    <color name="gray_back">#ffeeeeee</color>
+    <!--  <color name="gray_tab">#fddd</color> -->
+    <color name="gray_text">#ff999999</color>
+    <color name="gray_line">#ffdddddd</color>
+    <color name="gray_tab_text">#f777</color>
+    <color name="gray_rb_text">#f444</color>
+    <color name="yello_back">#ffffdd44</color>
+    <color name="lucency">#0000</color>
+    <color name="red">#f00</color>
+    <color name="green">#0f0</color>
+    <color name="blue">#00f</color>
+    <color name="blue_text">#448aca</color>
+    <color name="light_blue">#44aac0</color>
+    <color name="title_color">#5b2</color>
+    <color name="btn_yellow_color">#f79127</color>
+    <color name="btn_green">#3a8510</color>
+    <color name="light_green">#aaeeaa</color>
+    <color name="color_notifycation">#f72</color>
+    <color name="light_red">#f09640</color>
+    <color name="color_me_head">#e0b640</color>
+    <color name="color_me_head_select">#f0e640</color>
+
+    <color name="color_status_bar">#00cc8b</color>
+
+</resources>

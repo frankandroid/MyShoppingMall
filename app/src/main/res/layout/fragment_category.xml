@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:frank="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.frank.myshoppingmall.widget.MyToolBar
+        android:id="@+id/mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        frank:isShowSeacherView="true"
+        frank:rightButtonIcon="@mipmap/icon_home"
+        frank:rightButtonText="haha"
+        frank:title="hahasimida" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/fragment_category_ry_index"
+            android:layout_width="80dp"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/fragment_category_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/fragment_category_slider"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:auto_cycle="true"
+                app:indicator_visibility="visible"
+                app:pager_animation="Accordion"
+                app:pager_animation_span="1100" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/fragment_category_sw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fragment_category_ry_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </android.support.v7.widget.RecyclerView>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

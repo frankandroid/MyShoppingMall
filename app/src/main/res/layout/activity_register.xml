@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:frank="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.example.frank.myshoppingmall.widget.MyToolBar
+        android:id="@+id/mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        frank:isShowSeacherView="false"
+        frank:title="注册" />
+
+
+    <EditText
+        android:id="@+id/activity_register_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:drawableLeft="@mipmap/icon_telphone_32"
+        android:hint="请输入注册手机号码" />
+
+
+    <EditText
+        android:id="@+id/activity_register_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:drawableLeft="@mipmap/icon_lock"
+        android:hint="请输入密码"
+        android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/activity_register_authcode"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="请输入验证码" />
+
+        <Button
+            android:id="@+id/activity_register_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="点击获取验证码" />
+
+    </LinearLayout>
+
+    <Button
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="注册"
+        android:background="#ca0d0d"
+        android:id="@+id/activity_register_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
