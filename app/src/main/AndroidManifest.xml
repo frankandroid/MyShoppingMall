@@ -51,6 +51,7 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".cityhelper.AddressActivity" />
         <activity android:name=".cityhelper.CitySelect1Activity" />
+        <activity android:name=".activity.MyOrderActivity"/>
 
 
         <!--mob分享需要的东西-->

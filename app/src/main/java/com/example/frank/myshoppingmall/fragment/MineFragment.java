@@ -19,7 +19,7 @@ import com.example.frank.myshoppingmall.R;
 import com.example.frank.myshoppingmall.activity.CollectActivity;
 import com.example.frank.myshoppingmall.activity.LocationActivity;
 import com.example.frank.myshoppingmall.activity.LoginActivity;
-import com.example.frank.myshoppingmall.activity.OrderActivity;
+import com.example.frank.myshoppingmall.activity.MyOrderActivity;
 import com.example.frank.myshoppingmall.adapter.MineFragmentAdapter;
 import com.example.frank.myshoppingmall.bean.MineItemInfoBean;
 import com.example.frank.myshoppingmall.bean.User;
@@ -136,7 +136,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Intent intent = null;
                 switch (position) {
                     case 0:
-                        intent = new Intent(getContext(), OrderActivity.class);
+                        intent = new Intent(getContext(), MyOrderActivity.class);
 
                         break;
                     case 1:

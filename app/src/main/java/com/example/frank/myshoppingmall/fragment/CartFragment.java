@@ -17,10 +17,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.example.frank.myshoppingmall.MyApplication;
 import com.example.frank.myshoppingmall.R;
+import com.example.frank.myshoppingmall.activity.LoginActivity;
 import com.example.frank.myshoppingmall.activity.OrderActivity;
 import com.example.frank.myshoppingmall.adapter.CartAdapter;
 import com.example.frank.myshoppingmall.bean.CartBean;
+import com.example.frank.myshoppingmall.bean.User;
 import com.example.frank.myshoppingmall.decoration.CardViewtemDecortion;
 import com.example.frank.myshoppingmall.util.CartProvider;
 import com.example.frank.myshoppingmall.widget.MyToolBar;
@@ -307,39 +310,46 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fragment_cart_bt_submit:
 
+                MyApplication myApplication= (MyApplication) getActivity().getApplication();
+                User user = myApplication.getUser();
+                String token = myApplication.getToken();
 
-                mOrderList =new ArrayList<CartBean>();
+                if (user!=null&&token!=null&&!token.equals("")){
 
-                Iterator<CartBean> iteratorder = mCartBeans.iterator();
-                while (iteratorder.hasNext()) {
-                    CartBean cartBean = iteratorder.next();
+                    mOrderList =new ArrayList<CartBean>();
 
-                    if (cartBean.isChecked) {
-                        iteratorder.remove();
-                        mOrderList.add(cartBean);
+                    Iterator<CartBean> iteratorder = mCartBeans.iterator();
+                    while (iteratorder.hasNext()) {
+                        CartBean cartBean = iteratorder.next();
+
+                        if (cartBean.isChecked) {
+                            iteratorder.remove();
+                            mOrderList.add(cartBean);
+                        }
                     }
+
+                    List<Integer> list1 = new ArrayList<Integer>();
+                    for (int i = 0; i < mCartBeans.size(); i++) {
+                        list1.add(i);
+                    }
+
+                    mCartProvider.mDatas.clear();
+                    mCartProvider.listToSparse(mCartBeans);
+                    mCartProvider.commit();
+
+                    mCartAdapter.positions.clear();
+                    mCartAdapter.notifyDataSetChanged();
+                    isShouldDoUnCheck=true;
+                    mFragmentCartButtomck.setChecked(true);
+
+                    Intent intent =new Intent(getActivity(), OrderActivity.class);
+                    intent.putExtra("orderlist", (Serializable) mOrderList);
+                    startActivity(intent);
+                }else{
+
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }
-
-                List<Integer> list1 = new ArrayList<Integer>();
-                for (int i = 0; i < mCartBeans.size(); i++) {
-                    list1.add(i);
-                }
-
-                mCartProvider.mDatas.clear();
-                mCartProvider.listToSparse(mCartBeans);
-                mCartProvider.commit();
-
-                mCartAdapter.positions.clear();
-                mCartAdapter.notifyDataSetChanged();
-                isShouldDoUnCheck=true;
-                mFragmentCartButtomck.setChecked(true);
-
-                Intent intent =new Intent(getActivity(), OrderActivity.class);
-
-                intent.putExtra("orderlist", (Serializable) mOrderList);
-
-                startActivity(intent);
-
 
                 break;
         }

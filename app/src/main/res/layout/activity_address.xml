@@ -12,6 +12,7 @@
         android:background="#00CD8C"
         android:minHeight="?attr/actionBarSize"
         frank:isShowSeacherView="false"
+        frank:navigationIcon="@mipmap/icon_back_32px"
         frank:title="收货地址" />
 
     <LinearLayout

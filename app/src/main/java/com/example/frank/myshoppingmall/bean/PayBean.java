@@ -3,7 +3,7 @@ package com.example.frank.myshoppingmall.bean;
 /**
  * 创建者     Frank
  * 创建时间   2016/5/27 11:21
- * 描述	      ${TODO}
+ * 描述	      ${这个是订单页面的recycleview的item的Javabean}
  * 更新者     $Author$
  * 更新时间   $Date$
  * 更新描述   ${TODO}

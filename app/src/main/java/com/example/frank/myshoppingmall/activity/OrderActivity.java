@@ -15,22 +15,36 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.frank.myshoppingmall.Constants;
+import com.example.frank.myshoppingmall.MyApplication;
 import com.example.frank.myshoppingmall.R;
 import com.example.frank.myshoppingmall.adapter.OrderListAdapter;
 import com.example.frank.myshoppingmall.adapter.OrderRecycleViewAdapter;
 import com.example.frank.myshoppingmall.bean.AddressBean;
 import com.example.frank.myshoppingmall.bean.CartBean;
+import com.example.frank.myshoppingmall.bean.OrderRequestBean;
 import com.example.frank.myshoppingmall.bean.PayBean;
+import com.example.frank.myshoppingmall.bean.PostOrderBean;
+import com.example.frank.myshoppingmall.bean.User;
 import com.example.frank.myshoppingmall.cityhelper.AddressActivity;
 import com.example.frank.myshoppingmall.decoration.CardViewtemDecortion;
 import com.example.frank.myshoppingmall.decoration.FullyLinearLayoutManager;
+import com.example.frank.myshoppingmall.http.BaseCallBack;
+import com.example.frank.myshoppingmall.http.HttpHelper;
+import com.example.frank.myshoppingmall.util.JSONUtil;
+import com.example.frank.myshoppingmall.util.ToastUtils;
 import com.example.frank.myshoppingmall.widget.MyToolBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * 创建者     Frank
@@ -43,6 +57,7 @@ import butterknife.ButterKnife;
 public class OrderActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    private static final String TAG = "OrderActivity";
     @Bind(R.id.activity_order_toolbar)
     MyToolBar    mActivityOrderToolbar;
     @Bind(R.id.activity_order_username)
@@ -59,6 +74,8 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     ImageButton  mActivityOrderAddress;
     @Bind(R.id.activity_order_address_tv)
     TextView     mActivityOrderAddressTv;
+    @Bind(R.id.activity_order_sum)
+    TextView     mActivityOrderSum;
 
 
     private String[]       mDescript;
@@ -74,6 +91,28 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     public static final int    ADRESSREQUESTCODE = 1;
     public static final String ADDRESS           = "address";
     public static final String ADDRESSBEAN       = "addressbean";
+
+
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_WECHAT = "wx";
+    /**
+     * 支付支付渠道
+     */
+    private static final String CHANNEL_ALIPAY = "alipay";
+    /**
+     * 百度支付渠道
+     */
+    private static final String CHANNEL_BFB    = "bfb";
+
+
+    private Map<String, Object> mPostData;//用来装请求参数的map集合。
+    private String              itemJson;//发送请求的itemjson参数
+    private List<PostOrderBean> mPostOrderBeans;//将数据转换成itemjson的集合
+    private String payChannel = CHANNEL_ALIPAY;//支付方式的请求参数。
+
+    private HttpHelper mHttpHelper;
 
 
     @Override
@@ -120,6 +159,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         mOrderActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switchPayChannal(position);
                 orderListAdapter.setInder(position);
                 orderListAdapter.notifyDataSetChanged();
             }
@@ -146,7 +186,67 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         });
 
         mActivityOrderAddress.setOnClickListener(this);
+        mBtnCreateOrder.setOnClickListener(this);
+    }
 
+    /**
+     * 用来判断是哪种支付方式。
+     */
+    private void switchPayChannal(int position) {
+
+        switch (position) {
+            case 0:
+                payChannel = CHANNEL_ALIPAY;
+                break;
+            case 1:
+                payChannel = CHANNEL_WECHAT;
+                break;
+            case 2:
+                payChannel = CHANNEL_BFB;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * 这个方法是用来将购物车里面的数据转换为postorder需要的itemjson的list数据。
+     */
+    private List<PostOrderBean> cartBeansToPostOrderBean(List<CartBean> cartBeans) {
+
+        mPostOrderBeans = new ArrayList<>();
+        Iterator<CartBean> iterator = cartBeans.iterator();
+        PostOrderBean postOrderBean = null;
+        CartBean cartBean = null;
+        while (iterator.hasNext()) {
+            cartBean = iterator.next();
+            postOrderBean = new PostOrderBean(cartBean.id, cartBean.count);
+            mPostOrderBeans.add(postOrderBean);
+        }
+        return mPostOrderBeans;
+    }
+
+    /**
+     * 这个方法是将list数据转化为json数据。
+     */
+    private String listToJson(List<PostOrderBean> postOrderBeans) {
+
+        String itemJson = JSONUtil.toJSON(postOrderBeans);
+        return itemJson;
+    }
+
+
+    private int getSum(List<CartBean> cartBeans) {
+
+        int sum = 0;
+        Iterator<CartBean> iterator = cartBeans.iterator();
+        while (iterator.hasNext()) {
+
+            CartBean cartBean = iterator.next();
+            sum = (int) (sum + (cartBean.price * cartBean.count));
+        }
+        return sum;
     }
 
 
@@ -186,11 +286,72 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(intent, ADRESSREQUESTCODE);
                 break;
             case R.id.btn_createOrder:
+                doOrderRequest();
                 break;
 
 
         }
     }
+
+    //
+    private void doOrderRequest() {
+
+        mPostData = new HashMap<>();
+
+        MyApplication myApplication = (MyApplication) getApplication();
+        User user = myApplication.getUser();
+
+        if (user != null) {
+            mPostData.put("user_id", user.getId());
+        }
+
+        List<PostOrderBean> postOrderBeans = cartBeansToPostOrderBean(mCartBeans);
+        if (postOrderBeans != null && postOrderBeans.size() > 0) {
+            itemJson = listToJson(postOrderBeans);
+            mPostData.put("item_json", itemJson);
+        }
+        int sum = getSum(mCartBeans);
+        mPostData.put("amount", sum);
+        mPostData.put("addr_id", 1 + "");
+        mPostData.put("pay_channel", payChannel);
+
+        mHttpHelper = HttpHelper.getInstance();
+
+        mHttpHelper.post(Constants.URL.TO_POST_ORDER, mPostData, new BaseCallBack<OrderRequestBean>() {
+           @Override
+           public void onFailure(Request request, Exception exception) {
+
+           }
+
+           @Override
+           public void onSuccess(Response response, OrderRequestBean orderRequestBean) {
+               ToastUtils.show(OrderActivity.this,"请求成功");
+           }
+
+
+           @Override
+           public void onError(Response response, int code, Exception e) {
+
+           }
+
+           @Override
+           public void onResponse(Response response) {
+
+           }
+
+           @Override
+           public void onBeforeRequest(Request request) {
+
+           }
+
+           @Override
+           public void onTokenError(Response response, int code) {
+
+           }
+       });
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -199,8 +360,8 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         switch (resultCode) {
             case RESULT_OK:
                 AddressBean addressBean = (AddressBean) data.getSerializableExtra(ADDRESSBEAN);
-
                 mActivityOrderAddressTv.setText(addressBean.getAddress());
+                mActivityOrderUsername.setText(addressBean.getReceivername() + "(" + addressBean.getTelephone() + ")");
                 break;
         }
 

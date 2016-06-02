@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -144,6 +145,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
 
                 userMap.put("phone", mUsername1);
+
+                Log.d(TAG,DESUtil.encode(Constants.DES_KEY, mPassword1));
                 userMap.put("password", DESUtil.encode(Constants.DES_KEY, mPassword1));
                 doRequest(userMap);
                 break;

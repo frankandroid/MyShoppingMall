@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:frank="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:textSize="30sp"
-        android:text="订单页面"
-        android:id="@+id/activity_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <com.example.frank.myshoppingmall.widget.MyToolBar
+        android:id="@+id/warelist_mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        frank:isShowSeacherView="false"
+        frank:title="我的订单">
+    </com.example.frank.myshoppingmall.widget.MyToolBar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/activity_myorder_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_myorder_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
 
 </LinearLayout>

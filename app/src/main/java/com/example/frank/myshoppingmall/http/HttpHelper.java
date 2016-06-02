@@ -3,6 +3,7 @@ package com.example.frank.myshoppingmall.http;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.frank.myshoppingmall.MyApplication;
 import com.google.gson.Gson;
@@ -30,7 +31,7 @@ import okhttp3.Response;
  */
 public class HttpHelper {
 
-    public static final String TAG="HttpHelper";
+    public static final String TAG = "HttpHelper";
 
     private OkHttpClient mOkHttpClient;
     private Gson         mGson;
@@ -101,7 +102,7 @@ public class HttpHelper {
                 if (response.isSuccessful()) {
 
                     String resultString = response.body().string();
-
+                    Log.d(TAG, "result=" + resultString);
                     if (baseCallBack.mType == String.class) {
                         callBackOnSuccess(baseCallBack, response, resultString);
                     } else {
@@ -116,21 +117,21 @@ public class HttpHelper {
 
                 } else if (response.code() == TOKEN_ERROR || response.code() == TOKEN_MISSING || response.code() ==
                         TOKEN_EXPIRE) {
-                            callBackOnTokenError(baseCallBack,response);
+                    callBackOnTokenError(baseCallBack, response);
                 } else {
                     callBackOnError(baseCallBack, response, null);
+                    Log.d(TAG, "result="+"error");
                 }
             }
         });
-
     }
 
 
-    public void callBackOnTokenError(final BaseCallBack baseCallBack, final Response response){
+    public void callBackOnTokenError(final BaseCallBack baseCallBack, final Response response) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-              baseCallBack.onTokenError(response,response.code());
+                baseCallBack.onTokenError(response, response.code());
             }
         });
     }
@@ -221,8 +222,8 @@ public class HttpHelper {
 
             String token = mMyApplication.getToken();
 
-            if (!TextUtils.isEmpty(token)){
-                sb.append("token="+token);
+            if (!TextUtils.isEmpty(token)) {
+                sb.append("token=" + token);
             }
 
 
@@ -256,9 +257,9 @@ public class HttpHelper {
 
         }
         String token = mMyApplication.getToken();
-
-        if (!TextUtils.isEmpty(token)){
-           builder.add("token",token);
+        Log.d(TAG, token);
+        if (!TextUtils.isEmpty(token)) {
+            builder.add("token", token);
         }
 
         return builder.build();

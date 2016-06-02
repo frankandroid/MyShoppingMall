@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.frank.myshoppingmall.R;
 import com.example.frank.myshoppingmall.activity.OrderActivity;
 import com.example.frank.myshoppingmall.bean.AddressBean;
+import com.example.frank.myshoppingmall.util.ToastUtils;
 import com.example.frank.myshoppingmall.widget.MyToolBar;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class AddressActivity extends Activity implements OnClickListener {
     private City            city;
     private ArrayList<City> toCitys;
     private Button          mButtonSubmit;
-    private String          name, phone, postcode, address;//定义数据
+    private String          name, phone, postcode, citys, address;//定义数据
 
     public static final int ADDRESSRESULTCODE = 1;
 
@@ -67,6 +68,13 @@ public class AddressActivity extends Activity implements OnClickListener {
         tv_city1.setOnClickListener(this);
         city = new City();
         toCitys = new ArrayList<City>();
+
+        mMytoolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddressActivity.this.finish();
+            }
+        });
 
 
     }
@@ -101,12 +109,15 @@ public class AddressActivity extends Activity implements OnClickListener {
         }
         if (v.getId() == R.id.btn_save) {
 
-            getAllEditText();
-            AddressBean addressBean = new AddressBean(address,phone,postcode,name);
-            Intent intent = new Intent();
-            intent.putExtra(OrderActivity.ADDRESSBEAN, addressBean);
-            setResult(RESULT_OK, intent);
-            this.finish();
+            boolean allEditText = getAllEditText();
+            if (allEditText) {
+                AddressBean addressBean = new AddressBean(citys+address, phone, postcode, name);
+                Intent intent = new Intent();
+                intent.putExtra(OrderActivity.ADDRESSBEAN, addressBean);
+                setResult(RESULT_OK, intent);
+                this.finish();
+            }
+
         }
     }
 
@@ -134,12 +145,28 @@ public class AddressActivity extends Activity implements OnClickListener {
     }
 
 
-    public void getAllEditText() {
+    public boolean getAllEditText() {
 
+        boolean isAllFinished = false;
         name = mEtReceiver.getText().toString();
         postcode = mEtPostcode.getText().toString();
         address = mEtDetailaddress.getText().toString();
         phone = mEtMobile.getText().toString();
+        citys = mTvCity1.getText().toString();
+
+        if (name.equals("")) {
+            ToastUtils.show(AddressActivity.this, "收货人不能为空");
+        } else if (postcode.equals("")) {
+            ToastUtils.show(AddressActivity.this, "邮编不能为空");
+        } else if (address.equals("")) {
+            ToastUtils.show(AddressActivity.this, "请输入详细地址");
+        } else if (phone.equals("")) {
+            ToastUtils.show(AddressActivity.this, "电话不能为空");
+        } else {
+            isAllFinished = true;
+        }
+
+        return isAllFinished;
 
     }
 

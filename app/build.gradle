@@ -72,4 +72,5 @@ dependencies {
     compile(name: 'SMSSDK-2.0.2', ext: 'aar')
     compile(name: 'SMSSDKGUI-2.0.2', ext: 'aar')
     compile project(':sharesdk')
+    compile 'com.w4lle.library:NineLayout:1.0.0'
 }

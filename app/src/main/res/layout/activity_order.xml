@@ -15,7 +15,7 @@
         android:minHeight="?attr/actionBarSize"
         app:isShowSeacherView="false"
         app:navigationIcon="@mipmap/icon_back_32px"
-        app:title="订单确认"></com.example.frank.myshoppingmall.widget.MyToolBar>
+        app:title="订单确认"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -100,6 +100,7 @@
                         android:textSize="20sp" />
 
                     <TextView
+                        android:id="@+id/activity_order_sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -110,6 +111,7 @@
                         android:textSize="20sp" />
 
                     <Button
+                        android:focusable="true"
                         android:id="@+id/btn_createOrder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
