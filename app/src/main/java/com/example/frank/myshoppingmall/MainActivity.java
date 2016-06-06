@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private CartFragment mCartfragment;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -84,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCartfragment == null) {
             Fragment fragment = getSupportFragmentManager().findFragmentByTag("cart");
-            if (fragment!=null){
+            if (fragment != null) {
                 mCartfragment = (CartFragment) fragment;
                 mCartfragment.refData();
             }
-        }else{
+        } else {
             mCartfragment.refData();
         }
 
